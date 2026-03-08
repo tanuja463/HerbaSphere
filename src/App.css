@@ -1,0 +1,536 @@
+/* 🌿 GLOBAL RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f8f8fa;
+  overflow-x: hidden;
+}
+
+/* ================= APP LAYOUT ================= */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* ================= HERO SECTION ================= */
+
+.hero-section {
+  width: 100%;
+  height: 75vh;
+  background: url("https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1600&auto=format&fit=crop") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  color: white;
+  padding: 0 20px;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-size: 30px;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.hero-content .btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 30px;
+}
+
+/* ================= NAVBAR ================= */
+
+.custom-navbar {
+  background-color: #198754;
+  min-height: 85px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.brand-logo {
+  font-size: 22px !important;
+  font-weight: 700;
+  color: white !important;
+}
+
+/* ================= NAV LINKS ================= */
+
+.navbar-nav .nav-link {
+  font-size: 17px;
+  margin: 0 10px;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #b2ff59 !important;
+}
+
+.navbar-nav .nav-link.active {
+  color: #b2ff59 !important;
+  font-weight: 600;
+}
+
+/* 🔧 FIXED HAMBURGER ICON BORDER */
+
+.navbar-toggler {
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+
+.fav-icon {
+  color: white !important;
+  transition: 0.3s;
+}
+
+
+
+.fav-icon:hover {
+  color: #ff4d6d !important;
+  transform: scale(1.2);
+}
+
+
+
+/* ================= LOGIN / SIGNUP BUTTONS ================= */
+
+.signup-btn,
+.login-btn {
+  background-color: transparent !important;
+  color: white !important;
+  border: 2px solid white !important;
+  border-radius: 30px;
+  padding: 5px 14px;   /* 🔧 reduced size */
+  font-size: 13px;     /* 🔧 reduced font */
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.signup-btn:hover,
+.login-btn:hover {
+  background-color: rgb(107, 196, 35) !important;
+  color: #198754 !important;
+  transform: translateY(-2px);
+}
+
+.signup-btn.active,
+.login-btn.active {
+  background-color: #46d017 !important;
+  border: none !important;
+  color: white !important;
+}
+
+/* ================= GLOBAL CARD ================= */
+
+.card {
+  border: none;
+  border-radius: 15px;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 128, 0, 0.15);
+}
+
+.card img {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+/* ================= BUTTON ================= */
+
+.btn-success {
+  background-color: #2e7d32;
+  border: none;
+  border-radius: 25px;
+  padding: 7px 18px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #1b5e20;
+  transform: scale(1.05);
+}
+
+/* ================= CATEGORY SECTION ================= */
+
+.category-section {
+  padding: 60px 0;
+  background: linear-gradient(to bottom, #f1f8f4, #ffffff);
+}
+
+.category-section h2 {
+  font-weight: 600;
+  font-size: 34px;
+  color: #1b5e20;
+  margin-bottom: 30px;
+}
+
+/* ================= CATEGORY CARD ================= */
+
+.category-card {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.category-img {
+  height: 170px;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+  margin-bottom: 4px;
+}
+
+.category-card:hover .category-img {
+  transform: scale(1.00);
+}
+
+.category-card .card-body {
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.category-card .card-title {
+  font-weight: 700;
+  color: #2e7d32;
+  margin-top: 4px;
+  margin-bottom: 6px;
+  font-size: 20px;
+}
+
+.explore-btn {
+  padding: 6px 18px;
+  border-radius: 20px;
+  display: inline-block;
+  width: fit-content;
+  margin: 10px auto 0;
+}
+
+.category-card .card-text {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 35px rgba(46, 125, 50, 0.15);
+}
+
+/* ================= CATEGORY HERO ================= */
+
+.category-hero {
+  height: 60vh;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://www.shutterstock.com/image-photo/banner-top-view-healthy-food-260nw-2470098353.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.category-hero h1 {
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.category-hero p {
+  font-size: 20px;
+  max-width: 750px;
+  margin: 20px auto;
+}
+
+.hero-btn {
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-weight: 600;
+}
+
+/* ================= ITEM DETAILS ================= */
+
+.item-details-page {
+  min-height: 70vh;
+  padding: 40px 0;
+}
+
+.item-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.item-card {
+  border-radius: 15px;
+  padding: 30px;
+  background: white;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-image {
+  width: 100%;
+  max-width: 320px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.item-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 26px;
+  color: #1b5e20;
+}
+
+.item-card h5 {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.item-card p {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.benefits-list {
+  margin-top: 8px;
+  padding-left: 18px;
+}
+
+.benefits-list li {
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* ================= SCROLL ANIMATION ================= */
+
+.scroll-card {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+  background-color: #1b5e20;
+  color: white;
+  padding: 20px 0;
+  margin-top: auto;
+}
+
+.footer-title,
+.footer-heading {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.footer p {
+  font-size: 12px;
+  color: #e8f5e9;
+}
+
+.footer-links-horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.footer-links-horizontal span {
+  cursor: pointer;
+  transition: 0.3s ease;
+  color: #e8f5e9;
+}
+
+.footer-links-horizontal span:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.footer-link {
+  color: #e8f5e9;   /* light white/green */
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;   /* pure white on hover */
+  transform: translateY(-2px);
+}
+
+/* ================= MOBILE SIDEBAR MENU ================= */
+
+@media (max-width: 991px) {
+
+  .navbar-collapse {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100vh;
+    background-color: #198754;
+    padding: 25px;
+    transition: right 0.3s ease;
+    z-index: 999;
+  }
+
+  .navbar-collapse.show {
+    right: 0;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-nav .nav-link {
+    margin: 12px 0;
+    font-size: 18px;
+  }
+
+  .signup-btn,
+  .login-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+}
+
+/* FAVORITES PAGE */
+
+.favorites-page{
+padding:30px 0;
+}
+
+/* GRID */
+
+.favorites-page .row{
+justify-content:center;
+gap:10px;
+}
+
+/* CARD */
+
+.favorite-card{
+border:none;
+border-radius:12px;
+overflow:hidden;
+transition:0.3s;
+text-align:center;
+height:100%;
+max-width:190px;   /* smaller card width */
+margin:auto;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* HOVER */
+
+.favorite-card:hover{
+transform:translateY(-4px);
+box-shadow:0 8px 18px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
+
+.favorite-img{
+height:110px;     /* smaller image */
+object-fit:cover;
+}
+
+/* CARD BODY */
+
+.favorite-card .card-body{
+padding:8px 10px;
+}
+
+/* TITLE */
+
+.favorite-title{
+font-size:14px;
+font-weight:600;
+margin-bottom:4px;
+color:#2e7d32;
+}
+
+/* DESCRIPTION */
+
+.favorite-desc{
+font-size:12px;
+color:#555;
+margin-bottom:8px;
+}
+
+/* BUTTONS */
+
+.favorite-card button{
+font-size:11px;
+padding:4px 8px;
+border-radius:18px;
+}

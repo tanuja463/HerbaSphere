@@ -1,0 +1,107 @@
+/* ===== PAGE TITLE ===== */
+
+h2 {
+  font-weight: 700;
+  color: #2e7d32;
+  text-align: center;
+}
+
+/* ===== SEARCH + FILTER ===== */
+
+form {
+  max-width: 500px;
+  margin: auto;
+}
+
+form input,
+form select {
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
+/* ===== CARD STYLE ===== */
+
+.card {
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+}
+
+/* ===== IMAGE ===== */
+
+/* ===== IMAGE ===== */
+
+.card img {
+  object-fit: cover;
+  border-bottom: 3px solid #4caf50;
+  height: 250px;   /* added to reduce card size and fit image properly */
+}
+
+/* ===== CARD TITLE ===== */
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+/* ===== TEXT ===== */
+
+.card p {
+  font-size: 14px;
+  color: #444;
+}
+
+/* ===== INGREDIENT LIST ===== */
+
+.card ul {
+  padding-left: 20px;
+}
+
+.card ul li {
+  font-size: 14px;
+}
+
+/* ===== PROCESS TEXT ===== */
+
+.card p strong {
+  color: #1b5e20;
+}
+
+/* ===== BENEFITS ===== */
+
+.card p:last-child {
+  background: #e8f5e9;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+
+  .card img {
+    height: 180px;
+  }
+
+  form {
+    width: 90%;
+  }
+
+}
