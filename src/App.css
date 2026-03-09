@@ -139,8 +139,10 @@ body {
   color: white !important;
   border: 2px solid white !important;
   border-radius: 30px;
-  padding: 5px 14px;   /* 🔧 reduced size */
-  font-size: 13px;     /* 🔧 reduced font */
+  padding: 5px 14px;
+  /* 🔧 reduced size */
+  font-size: 13px;
+  /* 🔧 reduced font */
   font-weight: 600;
   transition: all 0.3s ease;
 }
@@ -214,28 +216,36 @@ body {
   border: none;
   border-radius: 20px;
   overflow: hidden;
-  transition: all 0.35s ease;
-  cursor: pointer;
+  cursor: default;
+  /* not clickable hover effect */
   background: #ffffff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: none;
+  /* disable any hover transitions from .card */
 }
 
+/* OVERRIDE GLOBAL .card:hover */
+.category-card:hover {
+  transform: none !important;
+  /* prevent movement */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
+  /* keep subtle shadow */
+}
+
+/* IMAGE */
 .category-img {
   height: 170px;
   object-fit: cover;
-  transition: transform 0.2s ease;
   margin-bottom: 4px;
 }
 
-.category-card:hover .category-img {
-  transform: scale(1.00);
-}
-
+/* CARD BODY */
 .category-card .card-body {
   padding: 8px 12px;
   text-align: center;
 }
 
+/* TITLE */
 .category-card .card-title {
   font-weight: 700;
   color: #2e7d32;
@@ -244,23 +254,32 @@ body {
   font-size: 20px;
 }
 
-.explore-btn {
-  padding: 6px 18px;
-  border-radius: 20px;
-  display: inline-block;
-  width: fit-content;
-  margin: 10px auto 0;
-}
-
+/* DESCRIPTION */
 .category-card .card-text {
   font-size: 14px;
   color: #555;
   margin-bottom: 12px;
 }
 
-.category-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 18px 35px rgba(46, 125, 50, 0.15);
+/* ================= EXPLORE BUTTON ================= */
+
+.explore-btn {
+  padding: 6px 18px;
+  border-radius: 20px;
+  display: inline-block;
+  width: fit-content;
+  margin: 10px auto 0;
+  transition: all 0.3s ease;
+  background-color: #2e7d32;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* BUTTON HOVER EFFECT ONLY */
+.explore-btn:hover {
+  transform: translateY(-4px) scale(1.08);
+  background-color: #1b5e20;
 }
 
 /* ================= CATEGORY HERO ================= */
@@ -415,13 +434,15 @@ body {
 }
 
 .footer-link {
-  color: #e8f5e9;   /* light white/green */
+  color: #e8f5e9;
+  /* light white/green */
   text-decoration: none;
   transition: 0.3s ease;
 }
 
 .footer-link:hover {
-  color: #ffffff;   /* pure white on hover */
+  color: #ffffff;
+  /* pure white on hover */
   transform: translateY(-2px);
 }
 
@@ -465,72 +486,74 @@ body {
 
 /* FAVORITES PAGE */
 
-.favorites-page{
-padding:30px 0;
+.favorites-page {
+  padding: 30px 0;
 }
 
 /* GRID */
 
-.favorites-page .row{
-justify-content:center;
-gap:10px;
+.favorites-page .row {
+  justify-content: center;
+  gap: 10px;
 }
 
 /* CARD */
 
-.favorite-card{
-border:none;
-border-radius:12px;
-overflow:hidden;
-transition:0.3s;
-text-align:center;
-height:100%;
-max-width:190px;   /* smaller card width */
-margin:auto;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
+.favorite-card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.3s;
+  text-align: center;
+  height: 100%;
+  max-width: 190px;
+  /* smaller card width */
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* HOVER */
 
-.favorite-card:hover{
-transform:translateY(-4px);
-box-shadow:0 8px 18px rgba(0,0,0,0.12);
+.favorite-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 /* IMAGE */
 
-.favorite-img{
-height:110px;     /* smaller image */
-object-fit:cover;
+.favorite-img {
+  height: 110px;
+  /* smaller image */
+  object-fit: cover;
 }
 
 /* CARD BODY */
 
-.favorite-card .card-body{
-padding:8px 10px;
+.favorite-card .card-body {
+  padding: 8px 10px;
 }
 
 /* TITLE */
 
-.favorite-title{
-font-size:14px;
-font-weight:600;
-margin-bottom:4px;
-color:#2e7d32;
+.favorite-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #2e7d32;
 }
 
 /* DESCRIPTION */
 
-.favorite-desc{
-font-size:12px;
-color:#555;
-margin-bottom:8px;
+.favorite-desc {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 8px;
 }
 
 /* BUTTONS */
 
-.favorite-card button{
-font-size:11px;
-padding:4px 8px;
-border-radius:18px;
+.favorite-card button {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 18px;
 }

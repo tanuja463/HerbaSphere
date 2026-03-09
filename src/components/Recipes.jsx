@@ -1,7 +1,7 @@
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Recipes.css";
-
 const recipes = [
 
     {
@@ -727,98 +727,96 @@ const recipes = [
     },
 ];
 
+
+
 function Recipes() {
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
 
-    const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("All");
+  const [isLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
 
-    const filteredRecipes = recipes.filter((recipe) => {
-        return (
-            (category === "All" || recipe.category === category) &&
-            recipe.name.toLowerCase().includes(search.toLowerCase())
-        );
-    });
-
-    const [favorites, setFavorites] = useState([]);
-
-    const toggleFavorite = (recipeName) => {
-        if (favorites.includes(recipeName)) {
-            setFavorites(favorites.filter((fav) => fav !== recipeName));
-        } else {
-            setFavorites([...favorites, recipeName]);
-        }
-    };
-
+  /* FILTER LOGIC */
+  const filteredRecipes = recipes.filter((recipe) => {
     return (
-
-        <Container className="mt-4">
-
-            <h2 className="text-center mb-4">🌿 HerbaSphere Healthy Recipes</h2>
-
-            <Form className="mb-4">
-
-                <Form.Control
-                    type="text"
-                    placeholder="Search recipes..."
-                    className="mb-4"
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-
-                <Form.Select onChange={(e) => setCategory(e.target.value)}>
-                    <option>All</option>
-                    <option>Herbs</option>
-                    <option>Fruits</option>
-                    <option>Vegetables</option>
-                    <option>Spices</option>
-                    <option>Nuts</option>
-
-                    <option>Trees</option>
-                </Form.Select>
-
-            </Form>
-            
-
-            <Row>
-
-                {filteredRecipes.map((recipe, index) => (
-                    <Col md={4} key={index}>
-                        <Card className="mb-4 shadow-sm">
-
-                            <Card.Img variant="top" src={recipe.image} height="200" />
-
-                            <Card.Body>
-
-                                <Card.Title>{recipe.name}</Card.Title>
-
-                                <p><strong>Category:</strong> {recipe.category}</p>
-
-                                <p><strong>Ingredients:</strong></p>
-
-                                <ul>
-                                    {recipe.ingredients.map((item, i) => (
-                                        <li key={i}>{item}</li>
-                                    ))}
-                                </ul>
-
-                                <p><strong>Process:</strong> {recipe.process}</p>
-                                <p><strong>Benefits:</strong> {recipe.benefits}</p>
-
-                                <button
-                                    className="btn btn-outline-danger mt-2"
-                                    onClick={() => toggleFavorite(recipe.name)}
-                                >
-                                    {favorites.includes(recipe.name) ? "❤️ Favorited" : "🤍 Add to Favorite"}
-                                </button>
-
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-
-            </Row>
-
-        </Container>
+      (category === "All" || recipe.category === category) &&
+      recipe.name.toLowerCase().includes(search.toLowerCase())
     );
+  });
+
+  /* SHOW ONLY 4 IF NOT LOGGED IN */
+  const visibleRecipes = isLoggedIn
+    ? filteredRecipes
+    : filteredRecipes.slice(0, 3);
+
+  return (
+    <Container className="mt-4">
+      <h2 className="text-center mb-4">🌿 HerbaSphere Healthy Recipes</h2>
+
+      <Form className="mb-4">
+        <Form.Control
+          type="text"
+          placeholder="Search recipes..."
+          className="mb-3"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <Form.Select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option>All</option>
+          <option>Herbs</option>
+          <option>Fruits</option>
+          <option>Vegetables</option>
+          <option>Spices</option>
+          <option>Nuts</option>
+          <option>Trees</option>
+        </Form.Select>
+      </Form>
+
+      <Row>
+        {visibleRecipes.map((recipe) => (
+          <Col md={4} key={recipe.name}>
+            <Card className="mb-4 shadow-sm recipe-card">
+              <Card.Img
+                variant="top"
+                src={recipe.image}
+                height="200"
+                alt={recipe.name}
+              />
+              <Card.Body>
+                <Card.Title>{recipe.name}</Card.Title>
+                <p>
+                  <strong>Category:</strong> {recipe.category}
+                </p>
+                <p>
+                  <strong>Benefits:</strong> {recipe.benefits}
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Signup message OUTSIDE map */}
+      {!isLoggedIn && (
+        <div className="text-center mt-4">
+          <p style={{ fontWeight: "500" }}>
+            🔒 Signup or Login to see all healthy recipes
+          </p>
+          <Link to="/signup" className="btn btn-success me-2">
+            Signup
+          </Link>
+          <Link to="/login" className="btn btn-outline-success">
+            Login
+          </Link>
+        </div>
+      )}
+    </Container>
+  );
 }
 
 export default Recipes;

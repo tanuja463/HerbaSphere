@@ -5,112 +5,113 @@ import { useNavigate } from "react-router-dom";
 
 function Favorites() {
 
-const [favorites, setFavorites] = useState([]);
-const navigate = useNavigate();
+    const [favorites, setFavorites] = useState([]);
+    const navigate = useNavigate();
 
-useEffect(() => {
+    useEffect(() => {
 
-const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-setFavorites(storedFavorites);
+        setFavorites(storedFavorites);
 
-}, []);
-
-
-// REMOVE FROM FAVORITES
-const removeFavorite = (id) => {
-
-const updatedFavorites = favorites.filter((item) => item.id !== id);
-
-setFavorites(updatedFavorites);
-
-localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-
-};
+    }, []);
 
 
-// READ MORE NAVIGATION
-const handleReadMore = (item) => {
+    // REMOVE FROM FAVORITES
+    const removeFavorite = (id) => {
 
-navigate(`/category/${item.category}/${item.id}`);
+        const updatedFavorites = favorites.filter((item) => item.id !== id);
 
-};
+        setFavorites(updatedFavorites);
 
-return (
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
 
-<div className="favorites-page">
+        window.dispatchEvent(new Event("storage")); // ADD THIS LINE
 
-<Container>
+    };
 
-<h2 className="text-center mb-4">❤️ My Favorites</h2>
+    // READ MORE NAVIGATION
+    const handleReadMore = (item) => {
 
-{favorites.length === 0 ? (
+        navigate(`/category/${item.category}/${item.id}`);
 
-<p className="text-center">No favorite items yet</p>
+    };
 
-) : (
+    return (
 
-<Row>
+        <div className="favorites-page">
 
-{favorites.map((item) => (
+            <Container>
 
-<Col lg={3} md={4} sm={6} xs={12} key={item.id} className="mb-4">
+                <h2 className="text-center mb-4">❤️ My Favorites</h2>
 
-<Card className="favorite-card">
+                {favorites.length === 0 ? (
 
-<Card.Img
-variant="top"
-src={item.image}
-className="favorite-img"
-/>
+                    <p className="text-center">No favorite items yet</p>
 
-<Card.Body>
+                ) : (
 
-<Card.Title className="favorite-title">
-{item.name}
-</Card.Title>
+                    <Row>
 
-<Card.Text className="favorite-desc">
-{item.description?.slice(0,80)}...
-</Card.Text>
+                        {favorites.map((item) => (
 
-<div className="d-flex justify-content-between">
+                            <Col lg={3} md={4} sm={6} xs={12} key={item.id} className="mb-4">
 
-<Button
-variant="success"
-size="sm"
-onClick={() => handleReadMore(item)}
->
-Read More
-</Button>
+                                <Card className="favorite-card">
 
-<Button
-variant="danger"
-size="sm"
-onClick={() => removeFavorite(item.id)}
->
-<FaTrash />
-</Button>
+                                    <Card.Img
+                                        variant="top"
+                                        src={item.image}
+                                        className="favorite-img"
+                                    />
 
-</div>
+                                    <Card.Body>
 
-</Card.Body>
+                                        <Card.Title className="favorite-title">
+                                            {item.name}
+                                        </Card.Title>
 
-</Card>
+                                        <Card.Text className="favorite-desc">
+                                            {item.description?.slice(0, 80)}...
+                                        </Card.Text>
 
-</Col>
+                                        <div className="d-flex justify-content-between">
 
-))}
+                                            <Button
+                                                variant="success"
+                                                size="sm"
+                                                onClick={() => handleReadMore(item)}
+                                            >
+                                                Read More
+                                            </Button>
 
-</Row>
+                                            <Button
+                                                variant="danger"
+                                                size="sm"
+                                                onClick={() => removeFavorite(item.id)}
+                                            >
+                                                <FaTrash />
+                                            </Button>
 
-)}
+                                        </div>
 
-</Container>
+                                    </Card.Body>
 
-</div>
+                                </Card>
 
-);
+                            </Col>
+
+                        ))}
+
+                    </Row>
+
+                )}
+
+            </Container>
+
+        </div>
+
+    );
 
 }
 

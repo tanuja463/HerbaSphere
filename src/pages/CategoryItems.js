@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import dataMap from "../data/dataMap";
 
 function CategoryItems() {
@@ -26,10 +27,27 @@ function CategoryItems() {
 
         <Container className="mt-5">
 
-            {/* CATEGORY TITLE */}
-            <h2 className="mb-4 text-center text-capitalize">
-                {categoryName.replace(/-/g, " ")}
-            </h2>
+            {/* TOP BAR WITH BACK BUTTON */}
+            <Row className="align-items-center mb-4">
+
+                <Col xs="auto">
+                    <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => navigate("/categories")}
+                    >
+                        <FaArrowLeft className="me-2" />
+                        Back
+                    </Button>
+                </Col>
+
+                <Col>
+                    <h2 className="text-center text-capitalize m-0">
+                        {categoryName.replace(/-/g, " ")}
+                    </h2>
+                </Col>
+
+            </Row>
 
             {/* HEALTH FILTER */}
             <div className="text-center mb-4">
@@ -55,6 +73,7 @@ function CategoryItems() {
 
             </div>
 
+            {/* ITEMS GRID */}
             <Row className="g-4 justify-content-center">
 
                 {filteredItems.map((item) => (
@@ -95,16 +114,6 @@ function CategoryItems() {
                 ))}
 
             </Row>
-
-            {/* BACK BUTTON AT BOTTOM */}
-            <div className="text-center mt-5">
-                <Button
-                    variant="outline-secondary"
-                    onClick={() => navigate("/categories")}
-                >
-                    ← Back to Categories
-                </Button>
-            </div>
 
         </Container>
 

@@ -6,131 +6,137 @@ import dataMap from "../data/dataMap";
 
 function ItemDetails() {
 
-const { categoryName, id } = useParams();
-const navigate = useNavigate();
-const location = useLocation();
+    const { categoryName, id } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-const items = dataMap[categoryName] ? dataMap[categoryName] : [];
+    const items = dataMap[categoryName] ? dataMap[categoryName] : [];
 
-const item = items.find((item) => item.id === parseInt(id));
+    const item = items.find((item) => String(item.id) === String(id));
 
-const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
 
-/* Check if item already in favorites */
-useEffect(() => {
+    /* Check if item already in favorites */
+    useEffect(() => {
 
-const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-const exists = favorites.find((fav) => fav.id === item?.id);
+        const exists = favorites.find((fav) => fav.id === item?.id);
 
-if (exists) {
-setIsFavorite(true);
-}
+        if (exists) {
+            setIsFavorite(true);
+        }
 
-}, [item]);
+    }, [item]);
 
-/* Add to favorites */
-const addToFavorites = () => {
+    /* Add to favorites */
+    const addToFavorites = () => {
 
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-const alreadyExists = favorites.find((fav) => fav.id === item.id);
+        const alreadyExists = favorites.find((fav) => fav.id === item.id);
 
-if (!alreadyExists) {
+        if (!alreadyExists) {
 
-favorites.push(item);
+            const itemWithCategory = {
+                ...item,
+                category: categoryName
+            };
+            favorites.push(itemWithCategory);
 
-localStorage.setItem("favorites", JSON.stringify(favorites));
+            localStorage.setItem("favorites", JSON.stringify(favorites));
 
-setIsFavorite(true);
+            window.dispatchEvent(new Event("storage"));  // ADD THIS LINE
 
-}
+            setIsFavorite(true);
 
-};
+        }
 
-if (!item) {
-return (
-<Container className="mt-5">
-<h3 className="text-center">Item not found</h3>
-</Container>
-);
-}
+    };
 
-return (
-<div className="item-details-page">
+    if (!item) {
+        return (
+            <Container className="mt-5">
+                <h3 className="text-center">Item not found</h3>
+            </Container>
+        );
+    }
 
-<Container className="item-container">
+    return (
+        <div className="item-details-page">
 
-{/* 🔙 BACK BUTTON */}
-<Button
-variant="outline-secondary"
-className="mb-3"
-onClick={() => navigate(location.state?.from || -1)}
->
-<FaArrowLeft /> Back
-</Button>
+            <Container className="item-container">
 
-<Card className="item-card shadow">
+                {/* 🔙 BACK BUTTON */}
+                <Button
+                    variant="outline-secondary"
+                    className="mb-3"
+                    onClick={() => navigate(location.state?.from || -1)}
+                >
+                    <FaArrowLeft /> Back
+                </Button>
 
-<Row className="g-3 align-items-center">
+                <Card className="item-card shadow">
 
-{/* IMAGE */}
-<Col lg={5} md={5} sm={12} className="image-container">
-<img
-src={item.image}
-alt={item.name}
-className="item-image"
-/>
-</Col>
+                    <Row className="g-3 align-items-center">
 
-{/* CONTENT */}
-<Col lg={7} md={7} sm={12}>
-<Card.Body>
+                        {/* IMAGE */}
+                        <Col lg={5} md={5} sm={12} className="image-container">
+                            <img
+                                src={item.image}
+                                alt={item.name}
+                                className="item-image"
+                            />
+                        </Col>
 
-<h2 className="item-title">{item.name}</h2>
+                        {/* CONTENT */}
+                        <Col lg={7} md={7} sm={12}>
+                            <Card.Body>
 
-<h5>Description</h5>
-<p>{item.description}</p>
+                                <h2 className="item-title">{item.name}</h2>
 
-<h5>Medicinal Uses</h5>
-<p>{item.medicinalUses}</p>
+                                <h5>Description</h5>
+                                <p>{item.description}</p>
 
-<h5>Home Remedies</h5>
-<p>{item.homeRemedies}</p>
+                                <h5>Medicinal Uses</h5>
+                                <p>{item.medicinalUses}</p>
 
-<h5>Benefits</h5>
+                                <h5>Home Remedies</h5>
+                                <p>{item.homeRemedies}</p>
 
-<ul className="benefits-list">
-{item.benefits &&
-item.benefits.map((benefit, index) => (
-<li key={index}>{benefit}</li>
-))}
-</ul>
+                                <h5>Benefits</h5>
 
-{/* ❤️ FAVORITE BUTTON */}
+                                <ul className="benefits-list">
+                                    {item.benefits &&
+                                        item.benefits.map((benefit, index) => (
+                                            <li key={index}>{benefit}</li>
+                                        ))}
+                                </ul>
 
-<Button
-className="mt-3"
-variant={isFavorite ? "secondary" : "danger"}
-onClick={addToFavorites}
-disabled={isFavorite}
->
+                                {/* ❤️ FAVORITE BUTTON */}
 
-<FaHeart /> {isFavorite ? "Added to Favorites" : "Add to Favorites"}
+                                <Button
+                                    className="mt-3"
+                                    variant={isFavorite ? "secondary" : "danger"}
+                                    onClick={addToFavorites}
+                                    disabled={isFavorite}
+                                >
 
-</Button>
+                                    <FaHeart /> {isFavorite ? "Added to Favorites" : "Add to Favorites"}
 
-</Card.Body>
-</Col>
+                                </Button>
 
-</Row>
+                            </Card.Body>
+                        </Col>
 
-</Card>
+                    </Row>
 
-</Container>
+                </Card>
 
-</div>
-);
+            </Container>
+
+        </div>
+    );
 }
 
 export default ItemDetails;

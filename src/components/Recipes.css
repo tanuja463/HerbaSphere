@@ -52,6 +52,10 @@ form select:focus {
   height: 250px;   /* added to reduce card size and fit image properly */
 }
 
+
+.recipe-card img {
+  object-fit: cover;
+}
 /* ===== CARD TITLE ===== */
 
 .card-title {
