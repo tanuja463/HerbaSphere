@@ -728,122 +728,127 @@ const recipes = [
 ];
 
 function Recipes() {
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("All");
 
-  const [isLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
+    const [isLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
 
-  // For Modal
-  const [showModal, setShowModal] = useState(false);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
+    // For Modal
+    const [showModal, setShowModal] = useState(false);
+    const [selectedRecipe, setSelectedRecipe] = useState(null);
 
-  const handleShowModal = (recipe) => {
-    setSelectedRecipe(recipe);
-    setShowModal(true);
-  };
+    const handleShowModal = (recipe) => {
+        setSelectedRecipe(recipe);
+        setShowModal(true);
+    };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedRecipe(null);
-  };
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedRecipe(null);
+    };
 
-  const filteredRecipes = recipes.filter((recipe) => {
+    const filteredRecipes = recipes.filter((recipe) => {
+        const searchText = search.toLowerCase();
+
+        return (
+            (category === "All" || recipe.category === category) &&
+            (
+                recipe.name.toLowerCase().includes(searchText) ||
+                recipe.category.toLowerCase().includes(searchText) ||
+                recipe.ingredients.join(" ").toLowerCase().includes(searchText)
+            )
+        );
+    });
+    const visibleRecipes = isLoggedIn ? filteredRecipes : filteredRecipes.slice(0, 3);
+
     return (
-      (category === "All" || recipe.category === category) &&
-      recipe.name.toLowerCase().includes(search.toLowerCase())
+        <Container className="mt-4">
+            <h2 className="text-center mb-4">🌿 HerbaSphere Healthy Recipes</h2>
+
+            <Form className="mb-4">
+                <Form.Control
+                    type="text"
+                    placeholder="Search recipes..."
+                    className="mb-3"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <Form.Select value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option>All</option>
+                    <option>Herbs</option>
+                    <option>Fruits</option>
+                    <option>Vegetables</option>
+                    <option>Spices</option>
+                    <option>Nuts</option>
+                    <option>Trees</option>
+                </Form.Select>
+            </Form>
+
+            <Row>
+                {visibleRecipes.map((recipe) => (
+                    <Col md={4} key={recipe.name}>
+                        <Card className="mb-4 shadow-sm recipe-card">
+                            <Card.Img variant="top" src={recipe.image} height="200" alt={recipe.name} />
+                            <Card.Body>
+                                <Card.Title>{recipe.name}</Card.Title>
+                                <p><strong>Category:</strong> {recipe.category}</p>
+                                <p><strong>Benefits:</strong> {recipe.benefits}</p>
+                                <Button variant="success" onClick={() => handleShowModal(recipe)}>
+                                    View Recipe
+                                </Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+
+            {!isLoggedIn && (
+                <div className="text-center mt-4">
+                    <p style={{ fontWeight: "500" }}>
+                        🔒 Signup or Login to see all healthy recipes
+                    </p>
+                    <Link to="/signup" className="btn btn-success me-2">Signup</Link>
+                    <Link to="/login" className="btn btn-outline-success">Login</Link>
+                </div>
+            )}
+
+            {/* Modal */}
+            {selectedRecipe && (
+                <Modal show={showModal} onHide={handleCloseModal} size="lg" centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{selectedRecipe.name}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <img
+                            src={selectedRecipe.image}
+                            alt={selectedRecipe.name}
+                            style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
+                            className="mb-3"
+                        />
+                        <p><strong>Category:</strong> {selectedRecipe.category}</p>
+                        <p><strong>Benefits:</strong> {selectedRecipe.benefits}</p>
+
+                        <h5>Ingredients:</h5>
+                        <ul>
+                            {selectedRecipe.ingredients.map((item, idx) => <li key={idx}>{item}</li>)}
+                        </ul>
+
+                        <h5>Process:</h5>
+                        <ol>
+                            {Array.isArray(selectedRecipe.process)
+                                ? selectedRecipe.process.map((step, idx) => <li key={idx}>{step}</li>)
+                                : selectedRecipe.process.split("\n").map((step, idx) => (
+                                    <li key={idx}>{step.replace("•", "").trim()}</li>
+                                ))}
+                        </ol>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
+        </Container>
     );
-  });
-
-  const visibleRecipes = isLoggedIn ? filteredRecipes : filteredRecipes.slice(0, 3);
-
-  return (
-    <Container className="mt-4">
-      <h2 className="text-center mb-4">🌿 HerbaSphere Healthy Recipes</h2>
-
-      <Form className="mb-4">
-        <Form.Control
-          type="text"
-          placeholder="Search recipes..."
-          className="mb-3"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <Form.Select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option>All</option>
-          <option>Herbs</option>
-          <option>Fruits</option>
-          <option>Vegetables</option>
-          <option>Spices</option>
-          <option>Nuts</option>
-          <option>Trees</option>
-        </Form.Select>
-      </Form>
-
-      <Row>
-        {visibleRecipes.map((recipe) => (
-          <Col md={4} key={recipe.name}>
-            <Card className="mb-4 shadow-sm recipe-card">
-              <Card.Img variant="top" src={recipe.image} height="200" alt={recipe.name} />
-              <Card.Body>
-                <Card.Title>{recipe.name}</Card.Title>
-                <p><strong>Category:</strong> {recipe.category}</p>
-                <p><strong>Benefits:</strong> {recipe.benefits}</p>
-                <Button variant="success" onClick={() => handleShowModal(recipe)}>
-                  View Recipe
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
-      {!isLoggedIn && (
-        <div className="text-center mt-4">
-          <p style={{ fontWeight: "500" }}>
-            🔒 Signup or Login to see all healthy recipes
-          </p>
-          <Link to="/signup" className="btn btn-success me-2">Signup</Link>
-          <Link to="/login" className="btn btn-outline-success">Login</Link>
-        </div>
-      )}
-
-      {/* Modal */}
-      {selectedRecipe && (
-        <Modal show={showModal} onHide={handleCloseModal} size="lg" centered>
-          <Modal.Header closeButton>
-            <Modal.Title>{selectedRecipe.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <img
-              src={selectedRecipe.image}
-              alt={selectedRecipe.name}
-              style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
-              className="mb-3"
-            />
-            <p><strong>Category:</strong> {selectedRecipe.category}</p>
-            <p><strong>Benefits:</strong> {selectedRecipe.benefits}</p>
-
-            <h5>Ingredients:</h5>
-            <ul>
-              {selectedRecipe.ingredients.map((item, idx) => <li key={idx}>{item}</li>)}
-            </ul>
-
-            <h5>Process:</h5>
-            <ol>
-              {Array.isArray(selectedRecipe.process)
-                ? selectedRecipe.process.map((step, idx) => <li key={idx}>{step}</li>)
-                : selectedRecipe.process.split("\n").map((step, idx) => (
-                    <li key={idx}>{step.replace("•", "").trim()}</li>
-                  ))}
-            </ol>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-    </Container>
-  );
 }
 
 export default Recipes;
