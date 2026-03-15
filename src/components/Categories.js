@@ -16,16 +16,16 @@ function Categories() {
     localStorage.getItem("isLoggedIn") === "true"
   );
 
-  const [searchInput, setSearchInput] = useState(""); // Immediate typing
-  const [search, setSearch] = useState(""); // Debounced search
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
 
-  // Debounce search input
+  // Debounce search
   useEffect(() => {
-    const handler = setTimeout(() => {
+    const timer = setTimeout(() => {
       setSearch(searchInput);
-    }, 300); // 300ms debounce
-    return () => clearTimeout(handler);
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [searchInput]);
 
   // Login status
@@ -49,7 +49,6 @@ function Categories() {
 
   const visibleCategories = isLoggedIn ? categories : categories.slice(0, 4);
 
-  // Filter and sort: matches first
   const filteredCategories = useMemo(() => {
     return visibleCategories
       .map((cat) => ({
@@ -65,35 +64,17 @@ function Categories() {
       });
   }, [visibleCategories, search]);
 
-  // IntersectionObserver for scroll animations
-  useEffect(() => {
-    const cards = document.querySelectorAll(".scroll-card");
-    const observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("show");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    // Reset and observe new cards
-    cards.forEach((card) => card.classList.remove("show"));
-    cards.forEach((card) => observer.observe(card));
-
-    return () => observer.disconnect();
-  }, [filteredCategories]);
-
   return (
     <div className="category-page">
-      {/* HERO */}
+
+      {/* Hero Section */}
       <div className="category-hero">
         <Container className="text-center hero-content">
           <h1>Explore Nature’s Diversity 🌍</h1>
-          <p>Discover plant-based categories designed for healthy living and natural healing.</p>
+          <p>
+            Discover plant-based categories designed for healthy living and natural healing.
+          </p>
+
           {!isLoggedIn && (
             <Button
               variant="light"
@@ -107,13 +88,15 @@ function Categories() {
         </Container>
       </div>
 
-      {/* CATEGORY SECTION */}
+      {/* Category Section */}
       <div className="category-section">
         <Container>
+
           <Row className="align-items-center mb-4">
             <Col md={6}>
               <h2>Browse Categories 🌱</h2>
             </Col>
+
             <Col md={6} className="text-md-end">
               <Form.Control
                 type="text"
@@ -128,17 +111,18 @@ function Categories() {
           <Row className="g-4 justify-content-center">
             {filteredCategories.map((cat, index) => (
               <Col key={index} xl={3} lg={3} md={6} sm={12} className="d-flex">
-                <Card
-                  className={`category-card scroll-card flex-fill ${
-                    hoveredIndex === index ? "hovered" : ""
-                  }`}
-                  style={{ transitionDelay: `${index * 0.1}s` }}
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                >
-                  <Card.Img variant="top" src={cat.image} className="category-img" />
+                <Card className="category-card flex-fill">
+
+                  <Card.Img
+                    variant="top"
+                    src={cat.image}
+                    className="category-img"
+                  />
+
                   <Card.Body className="d-flex flex-column text-center">
+
                     <Card.Title>{cat.title}</Card.Title>
+
                     <Button
                       variant="success"
                       className="explore-btn"
@@ -155,7 +139,9 @@ function Categories() {
                     >
                       Explore
                     </Button>
+
                   </Card.Body>
+
                 </Card>
               </Col>
             ))}
@@ -166,6 +152,7 @@ function Categories() {
               <h5>🔒 Sign up to explore more categories!</h5>
             </div>
           )}
+
         </Container>
       </div>
     </div>
